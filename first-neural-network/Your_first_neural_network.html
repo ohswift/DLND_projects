@@ -13401,7 +13401,7 @@ height=263
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[237]:</div>
+<div class="prompt input_prompt">In&nbsp;[275]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">NeuralNetwork</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -13423,7 +13423,7 @@ height=263
         <span class="c1">#</span>
         <span class="c1"># Note: in Python, you can define a function with a lambda expression,</span>
         <span class="c1"># as shown below.</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">activation_function</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span> <span class="p">:</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">))</span>  <span class="c1"># Replace 0 with your sigmoid calculation.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">activation_function</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span> <span class="p">:</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">)))</span>  <span class="c1"># Replace 0 with your sigmoid calculation.</span>
         
         <span class="c1">### If the lambda code above is not something you&#39;re familiar with,</span>
         <span class="c1"># You can uncomment out the following three lines and put your </span>
@@ -13432,7 +13432,7 @@ height=263
         <span class="c1">#def sigmoid(x):</span>
         <span class="c1">#    return 0  # Replace 0 with your sigmoid calculation here</span>
         <span class="c1">#self.activation_function = sigmoid</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">activation_function_prime</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span> <span class="p">:</span> <span class="mi">1</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">x</span><span class="p">)</span>  <span class="c1"># Replace 0 with your sigmoid calculation.</span>
+        <span class="c1">#self.activation_function_prime = lambda x : (x * (1 - x))  # Replace 0 with your sigmoid calculation.</span>
     
     <span class="k">def</span> <span class="nf">train</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">features</span><span class="p">,</span> <span class="n">targets</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39; Train the network on batch of features and targets. </span>
@@ -13469,11 +13469,10 @@ height=263
             
             <span class="c1"># TODO: Calculate the hidden layer&#39;s contribution to the error</span>
             <span class="n">hidden_error</span> <span class="o">=</span> <span class="n">output_error_term</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">weights_hidden_to_output</span>
-
-            <span class="n">hidden_error_term</span> <span class="o">=</span> <span class="n">hidden_error</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">activation_function_prime</span><span class="p">(</span><span class="n">hidden_outputs</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">])</span>
+            <span class="n">hidden_error_term</span> <span class="o">=</span> <span class="n">hidden_error</span><span class="o">.</span><span class="n">T</span> <span class="o">*</span> <span class="n">hidden_outputs</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">hidden_outputs</span><span class="p">)</span>
             
             <span class="c1"># Weight step (input to hidden)</span>
-            <span class="n">delta_weights_i_h</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lr</span> <span class="o">*</span> <span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">hidden_error_term</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+            <span class="n">delta_weights_i_h</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lr</span> <span class="o">*</span> <span class="n">hidden_error_term</span> <span class="o">*</span> <span class="n">X</span><span class="p">[:,</span><span class="kc">None</span><span class="p">]</span>
             <span class="c1"># Weight step (hidden to output)</span>
             <span class="n">delta_weights_h_o</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lr</span> <span class="o">*</span> <span class="n">hidden_outputs</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">output_error_term</span>
 
@@ -13531,7 +13530,7 @@ height=263
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[252]:</div>
+<div class="prompt input_prompt">In&nbsp;[276]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">unittest</span>
@@ -13580,8 +13579,8 @@ height=263
                                     <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span> <span class="mf">0.37275328</span><span class="p">],</span> 
                                               <span class="p">[</span><span class="o">-</span><span class="mf">0.03172939</span><span class="p">]])))</span>
         
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;weights_input_to_hidden&quot;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">weights_input_to_hidden</span><span class="p">)</span>
+<span class="c1">#         print(&quot;weights_input_to_hidden&quot;)</span>
+<span class="c1">#         print(network.weights_input_to_hidden)</span>
         
         <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">network</span><span class="o">.</span><span class="n">weights_input_to_hidden</span><span class="p">,</span>
                                     <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span> <span class="mf">0.10562014</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.20185996</span><span class="p">],</span> 
@@ -13614,56 +13613,24 @@ height=263
 
 
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>....F</pre>
-</div>
-</div>
+<pre>.....
+----------------------------------------------------------------------
+Ran 5 tests in 0.010s
 
-<div class="output_area">
-
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>weights_input_to_hidden
-[[ 0.11158781 -0.20408674]
- [ 0.39536487  0.5016347 ]
- [-0.29768244  0.19918265]]
+OK
 </pre>
 </div>
 </div>
 
 <div class="output_area">
 
-<div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>
-======================================================================
-FAIL: test_train (__main__.TestMethods)
-----------------------------------------------------------------------
-Traceback (most recent call last):
-  File &#34;&lt;ipython-input-252-b19e9132fd31&gt;&#34;, line 53, in test_train
-    [-0.29887597, 0.19962801]])))
-AssertionError: False is not true
-
-----------------------------------------------------------------------
-Ran 5 tests in 0.013s
-
-FAILED (failures=1)
-</pre>
-</div>
-</div>
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[252]:</div>
+<div class="prompt output_prompt">Out[276]:</div>
 
 
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>&lt;unittest.runner.TextTestResult run=5 errors=0 failures=1&gt;</pre>
+<pre>&lt;unittest.runner.TextTestResult run=5 errors=0 failures=0&gt;</pre>
 </div>
 
 </div>
@@ -13687,14 +13654,14 @@ FAILED (failures=1)
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[254]:</div>
+<div class="prompt input_prompt">In&nbsp;[272]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
 
 <span class="c1">### Set the hyperparameters here ###</span>
-<span class="n">iterations</span> <span class="o">=</span> <span class="mi">1000</span>
-<span class="n">learning_rate</span> <span class="o">=</span> <span class="mf">0.03</span>
+<span class="n">iterations</span> <span class="o">=</span> <span class="mi">5000</span>
+<span class="n">learning_rate</span> <span class="o">=</span> <span class="mf">0.5</span>
 <span class="n">hidden_nodes</span> <span class="o">=</span> <span class="mi">30</span>
 <span class="n">output_nodes</span> <span class="o">=</span> <span class="mi">1</span>
 
@@ -13735,7 +13702,7 @@ FAILED (failures=1)
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Progress: 99.9% ... Training loss: 0.470 ... Validation loss: 0.754</pre>
+<pre>Progress: 100.0% ... Training loss: 0.069 ... Validation loss: 0.169</pre>
 </div>
 </div>
 

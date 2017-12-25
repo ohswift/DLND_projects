@@ -133,7 +133,7 @@ val_features, val_targets = features[-60*24:], targets[-60*24:]
 # 
 #   
 
-# In[237]:
+# In[275]:
 
 
 class NeuralNetwork(object):
@@ -155,7 +155,7 @@ class NeuralNetwork(object):
         #
         # Note: in Python, you can define a function with a lambda expression,
         # as shown below.
-        self.activation_function = lambda x : 1 / (1 + np.exp(-x))  # Replace 0 with your sigmoid calculation.
+        self.activation_function = lambda x : (1 / (1 + np.exp(-x)))  # Replace 0 with your sigmoid calculation.
         
         ### If the lambda code above is not something you're familiar with,
         # You can uncomment out the following three lines and put your 
@@ -164,7 +164,7 @@ class NeuralNetwork(object):
         #def sigmoid(x):
         #    return 0  # Replace 0 with your sigmoid calculation here
         #self.activation_function = sigmoid
-        self.activation_function_prime = lambda x : 1 * (1 - x)  # Replace 0 with your sigmoid calculation.
+        #self.activation_function_prime = lambda x : (x * (1 - x))  # Replace 0 with your sigmoid calculation.
     
     def train(self, features, targets):
         ''' Train the network on batch of features and targets. 
@@ -201,11 +201,10 @@ class NeuralNetwork(object):
             
             # TODO: Calculate the hidden layer's contribution to the error
             hidden_error = output_error_term * self.weights_hidden_to_output
-
-            hidden_error_term = hidden_error * self.activation_function_prime(hidden_outputs[:, None])
+            hidden_error_term = hidden_error.T * hidden_outputs * (1 - hidden_outputs)
             
             # Weight step (input to hidden)
-            delta_weights_i_h += self.lr * (X[:, None] * hidden_error_term.T)
+            delta_weights_i_h += self.lr * hidden_error_term * X[:,None]
             # Weight step (hidden to output)
             delta_weights_h_o += self.lr * hidden_outputs[:, None] * output_error_term
 
@@ -244,7 +243,7 @@ def MSE(y, Y):
 # 
 # 运行这些单元测试，检查你的网络实现是否正确。这样可以帮助你确保网络已正确实现，然后再开始训练网络。这些测试必须成功才能通过此项目。
 
-# In[252]:
+# In[276]:
 
 
 import unittest
@@ -293,8 +292,8 @@ class TestMethods(unittest.TestCase):
                                     np.array([[ 0.37275328], 
                                               [-0.03172939]])))
         
-        print("weights_input_to_hidden")
-        print(network.weights_input_to_hidden)
+#         print("weights_input_to_hidden")
+#         print(network.weights_input_to_hidden)
         
         self.assertTrue(np.allclose(network.weights_input_to_hidden,
                                     np.array([[ 0.10562014, -0.20185996], 
@@ -333,14 +332,14 @@ unittest.TextTestRunner().run(suite)
 # 
 # 隐藏节点越多，模型的预测结果就越准确。尝试不同的隐藏节点的数量，看看对性能有何影响。你可以查看损失字典，寻找网络性能指标。如果隐藏单元的数量太少，那么模型就没有足够的空间进行学习，如果太多，则学习方向就有太多的选择。选择隐藏单元数量的技巧在于找到合适的平衡点。
 
-# In[254]:
+# In[272]:
 
 
 import sys
 
 ### Set the hyperparameters here ###
-iterations = 1000
-learning_rate = 0.03
+iterations = 5000
+learning_rate = 0.5
 hidden_nodes = 30
 output_nodes = 1
 

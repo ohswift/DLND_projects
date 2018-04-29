@@ -12158,7 +12158,7 @@ Default GPU Device: /gpu:0
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[102]:</div>
+<div class="prompt input_prompt">In&nbsp;[137]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">get_inputs</span><span class="p">():</span>
@@ -12169,7 +12169,7 @@ Default GPU Device: /gpu:0
     <span class="c1"># TODO: Implement Function</span>
     <span class="n">inputs</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">placeholder</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">int32</span><span class="p">,</span> <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">],</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;input&#39;</span><span class="p">)</span>
     <span class="n">targets</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">placeholder</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">int32</span><span class="p">,</span> <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">],</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;targets&#39;</span><span class="p">)</span>
-    <span class="n">lr</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">placeholder</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">int32</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;learing_rate&#39;</span><span class="p">)</span>
+    <span class="n">lr</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">placeholder</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;learing_rate&#39;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">targets</span><span class="p">,</span> <span class="n">lr</span>
 
 
@@ -12220,7 +12220,7 @@ Default GPU Device: /gpu:0
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[32]:</div>
+<div class="prompt input_prompt">In&nbsp;[142]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">get_init_cell</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">rnn_size</span><span class="p">):</span>
@@ -12231,8 +12231,8 @@ Default GPU Device: /gpu:0
 <span class="sd">    :return: Tuple (cell, initialize state)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># TODO: Implement Function</span>
-    <span class="n">lstm</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">contrib</span><span class="o">.</span><span class="n">rnn</span><span class="o">.</span><span class="n">BasicLSTMCell</span><span class="p">(</span><span class="n">rnn_size</span><span class="p">)</span>
-    <span class="n">cell</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">contrib</span><span class="o">.</span><span class="n">rnn</span><span class="o">.</span><span class="n">MultiRNNCell</span><span class="p">([</span><span class="n">lstm</span><span class="p">])</span>
+    <span class="n">lstm_cell</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">contrib</span><span class="o">.</span><span class="n">rnn</span><span class="o">.</span><span class="n">BasicLSTMCell</span><span class="p">(</span><span class="n">rnn_size</span><span class="p">)</span>
+    <span class="n">cell</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">contrib</span><span class="o">.</span><span class="n">rnn</span><span class="o">.</span><span class="n">MultiRNNCell</span><span class="p">([</span><span class="n">lstm_cell</span><span class="p">])</span>
     <span class="n">initial_state</span> <span class="o">=</span> <span class="n">cell</span><span class="o">.</span><span class="n">zero_state</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
     <span class="n">initial_state</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">identity</span><span class="p">(</span><span class="n">initial_state</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;initial_state&#39;</span><span class="p">)</span>
 
@@ -12278,7 +12278,7 @@ Default GPU Device: /gpu:0
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="prompt input_prompt">In&nbsp;[143]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">get_embed</span><span class="p">(</span><span class="n">input_data</span><span class="p">,</span> <span class="n">vocab_size</span><span class="p">,</span> <span class="n">embed_dim</span><span class="p">):</span>
@@ -12342,7 +12342,7 @@ Default GPU Device: /gpu:0
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="prompt input_prompt">In&nbsp;[144]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">build_rnn</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span> <span class="n">inputs</span><span class="p">):</span>
@@ -12405,7 +12405,7 @@ Default GPU Device: /gpu:0
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="prompt input_prompt">In&nbsp;[146]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">build_nn</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span> <span class="n">rnn_size</span><span class="p">,</span> <span class="n">input_data</span><span class="p">,</span> <span class="n">vocab_size</span><span class="p">,</span> <span class="n">embed_dim</span><span class="p">):</span>
@@ -12499,7 +12499,7 @@ Default GPU Device: /gpu:0
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[52]:</div>
+<div class="prompt input_prompt">In&nbsp;[147]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">get_batches</span><span class="p">(</span><span class="n">int_text</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">,</span> <span class="n">seq_length</span><span class="p">):</span>
@@ -12578,13 +12578,13 @@ Default GPU Device: /gpu:0
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[121]:</div>
+<div class="prompt input_prompt">In&nbsp;[178]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Number of Epochs</span>
-<span class="n">num_epochs</span> <span class="o">=</span> <span class="mi">500</span>
+<span class="n">num_epochs</span> <span class="o">=</span> <span class="mi">550</span>
 <span class="c1"># Batch Size</span>
-<span class="n">batch_size</span> <span class="o">=</span> <span class="mi">50</span>
+<span class="n">batch_size</span> <span class="o">=</span> <span class="mi">30</span>
 <span class="c1"># RNN Size</span>
 <span class="n">rnn_size</span> <span class="o">=</span> <span class="mi">128</span>
 <span class="c1"># Embedding Dimension Size</span>
@@ -12619,7 +12619,7 @@ Default GPU Device: /gpu:0
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[122]:</div>
+<div class="prompt input_prompt">In&nbsp;[179]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
@@ -12670,7 +12670,7 @@ Default GPU Device: /gpu:0
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[123]:</div>
+<div class="prompt input_prompt">In&nbsp;[180]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
@@ -12718,62 +12718,135 @@ Default GPU Device: /gpu:0
 <div class="prompt"></div>
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Epoch   0 Batch    0/13   train_loss = 8.821
-Epoch   7 Batch    9/13   train_loss = 8.821
+<pre>Epoch   0 Batch    0/23   train_loss = 8.822
+Epoch   4 Batch    8/23   train_loss = 5.919
+Epoch   8 Batch   16/23   train_loss = 5.425
+Epoch  13 Batch    1/23   train_loss = 5.113
+Epoch  17 Batch    9/23   train_loss = 4.939
+Epoch  21 Batch   17/23   train_loss = 4.703
+Epoch  26 Batch    2/23   train_loss = 4.580
+Epoch  30 Batch   10/23   train_loss = 4.459
+Epoch  34 Batch   18/23   train_loss = 4.326
+Epoch  39 Batch    3/23   train_loss = 4.244
+Epoch  43 Batch   11/23   train_loss = 4.080
+Epoch  47 Batch   19/23   train_loss = 3.943
+Epoch  52 Batch    4/23   train_loss = 3.909
+Epoch  56 Batch   12/23   train_loss = 3.814
+Epoch  60 Batch   20/23   train_loss = 3.703
+Epoch  65 Batch    5/23   train_loss = 3.630
+Epoch  69 Batch   13/23   train_loss = 3.610
+Epoch  73 Batch   21/23   train_loss = 3.482
+Epoch  78 Batch    6/23   train_loss = 3.472
+Epoch  82 Batch   14/23   train_loss = 3.380
+Epoch  86 Batch   22/23   train_loss = 3.384
+Epoch  91 Batch    7/23   train_loss = 3.253
+Epoch  95 Batch   15/23   train_loss = 3.192
+Epoch 100 Batch    0/23   train_loss = 3.087
+Epoch 104 Batch    8/23   train_loss = 3.027
+Epoch 108 Batch   16/23   train_loss = 2.978
+Epoch 113 Batch    1/23   train_loss = 2.924
+Epoch 117 Batch    9/23   train_loss = 2.875
+Epoch 121 Batch   17/23   train_loss = 2.815
+Epoch 126 Batch    2/23   train_loss = 2.758
+Epoch 130 Batch   10/23   train_loss = 2.692
+Epoch 134 Batch   18/23   train_loss = 2.707
+Epoch 139 Batch    3/23   train_loss = 2.614
+Epoch 143 Batch   11/23   train_loss = 2.618
+Epoch 147 Batch   19/23   train_loss = 2.529
+Epoch 152 Batch    4/23   train_loss = 2.466
+Epoch 156 Batch   12/23   train_loss = 2.484
+Epoch 160 Batch   20/23   train_loss = 2.432
+Epoch 165 Batch    5/23   train_loss = 2.350
+Epoch 169 Batch   13/23   train_loss = 2.290
+Epoch 173 Batch   21/23   train_loss = 2.279
+Epoch 178 Batch    6/23   train_loss = 2.216
+Epoch 182 Batch   14/23   train_loss = 2.232
+Epoch 186 Batch   22/23   train_loss = 2.223
+Epoch 191 Batch    7/23   train_loss = 2.066
+Epoch 195 Batch   15/23   train_loss = 2.075
+Epoch 200 Batch    0/23   train_loss = 1.992
+Epoch 204 Batch    8/23   train_loss = 1.933
+Epoch 208 Batch   16/23   train_loss = 2.029
+Epoch 213 Batch    1/23   train_loss = 1.952
+Epoch 217 Batch    9/23   train_loss = 1.840
+Epoch 221 Batch   17/23   train_loss = 1.839
+Epoch 226 Batch    2/23   train_loss = 1.757
+Epoch 230 Batch   10/23   train_loss = 1.716
+Epoch 234 Batch   18/23   train_loss = 1.759
+Epoch 239 Batch    3/23   train_loss = 1.699
+Epoch 243 Batch   11/23   train_loss = 1.755
+Epoch 247 Batch   19/23   train_loss = 1.717
+Epoch 252 Batch    4/23   train_loss = 1.606
+Epoch 256 Batch   12/23   train_loss = 1.677
+Epoch 260 Batch   20/23   train_loss = 1.621
+Epoch 265 Batch    5/23   train_loss = 1.544
+Epoch 269 Batch   13/23   train_loss = 1.505
+Epoch 273 Batch   21/23   train_loss = 1.510
+Epoch 278 Batch    6/23   train_loss = 1.473
+Epoch 282 Batch   14/23   train_loss = 1.497
+Epoch 286 Batch   22/23   train_loss = 1.493
+Epoch 291 Batch    7/23   train_loss = 1.353
+Epoch 295 Batch   15/23   train_loss = 1.404
+Epoch 300 Batch    0/23   train_loss = 1.320
+Epoch 304 Batch    8/23   train_loss = 1.285
+Epoch 308 Batch   16/23   train_loss = 1.349
+Epoch 313 Batch    1/23   train_loss = 1.344
+Epoch 317 Batch    9/23   train_loss = 1.237
+Epoch 321 Batch   17/23   train_loss = 1.227
+Epoch 326 Batch    2/23   train_loss = 1.178
+Epoch 330 Batch   10/23   train_loss = 1.135
+Epoch 334 Batch   18/23   train_loss = 1.189
+Epoch 339 Batch    3/23   train_loss = 1.139
+Epoch 343 Batch   11/23   train_loss = 1.225
+Epoch 347 Batch   19/23   train_loss = 1.179
+Epoch 352 Batch    4/23   train_loss = 1.102
+Epoch 356 Batch   12/23   train_loss = 1.175
+Epoch 360 Batch   20/23   train_loss = 1.131
+Epoch 365 Batch    5/23   train_loss = 1.078
+Epoch 369 Batch   13/23   train_loss = 1.046
+Epoch 373 Batch   21/23   train_loss = 1.051
+Epoch 378 Batch    6/23   train_loss = 1.058
+Epoch 382 Batch   14/23   train_loss = 1.083
+Epoch 386 Batch   22/23   train_loss = 1.039
+Epoch 391 Batch    7/23   train_loss = 0.936
+Epoch 395 Batch   15/23   train_loss = 0.959
+Epoch 400 Batch    0/23   train_loss = 0.916
+Epoch 404 Batch    8/23   train_loss = 0.872
+Epoch 408 Batch   16/23   train_loss = 0.952
+Epoch 413 Batch    1/23   train_loss = 0.950
+Epoch 417 Batch    9/23   train_loss = 0.866
+Epoch 421 Batch   17/23   train_loss = 0.868
+Epoch 426 Batch    2/23   train_loss = 0.826
+Epoch 430 Batch   10/23   train_loss = 0.781
+Epoch 434 Batch   18/23   train_loss = 0.833
+Epoch 439 Batch    3/23   train_loss = 0.788
+Epoch 443 Batch   11/23   train_loss = 0.866
+Epoch 447 Batch   19/23   train_loss = 0.839
+Epoch 452 Batch    4/23   train_loss = 0.789
+Epoch 456 Batch   12/23   train_loss = 0.850
+Epoch 460 Batch   20/23   train_loss = 0.803
+Epoch 465 Batch    5/23   train_loss = 0.768
+Epoch 469 Batch   13/23   train_loss = 0.749
+Epoch 473 Batch   21/23   train_loss = 0.740
+Epoch 478 Batch    6/23   train_loss = 0.761
+Epoch 482 Batch   14/23   train_loss = 0.764
+Epoch 486 Batch   22/23   train_loss = 0.747
+Epoch 491 Batch    7/23   train_loss = 0.673
+Epoch 495 Batch   15/23   train_loss = 0.702
+Epoch 500 Batch    0/23   train_loss = 0.666
+Epoch 504 Batch    8/23   train_loss = 0.620
+Epoch 508 Batch   16/23   train_loss = 0.702
+Epoch 513 Batch    1/23   train_loss = 0.680
+Epoch 517 Batch    9/23   train_loss = 0.614
+Epoch 521 Batch   17/23   train_loss = 0.626
+Epoch 526 Batch    2/23   train_loss = 0.624
+Epoch 530 Batch   10/23   train_loss = 0.565
+Epoch 534 Batch   18/23   train_loss = 0.606
+Epoch 539 Batch    3/23   train_loss = 0.572
+Epoch 543 Batch   11/23   train_loss = 0.658
+Epoch 547 Batch   19/23   train_loss = 0.622
+Model Trained and Saved
 </pre>
-</div>
-</div>
-
-<div class="output_area">
-<div class="prompt"></div>
-
-<div class="output_subarea output_text output_error">
-<pre>
-<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">KeyboardInterrupt</span>                         Traceback (most recent call last)
-<span class="ansi-green-fg">&lt;ipython-input-123-396c263e7e73&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span><span class="ansi-blue-fg">()</span>
-<span class="ansi-green-intense-fg ansi-bold">     16</span>                 initial_state<span class="ansi-blue-fg">:</span> state<span class="ansi-blue-fg">,</span>
-<span class="ansi-green-intense-fg ansi-bold">     17</span>                 lr: learning_rate}
-<span class="ansi-green-fg">---&gt; 18</span><span class="ansi-red-fg">             </span>train_loss<span class="ansi-blue-fg">,</span> state<span class="ansi-blue-fg">,</span> _ <span class="ansi-blue-fg">=</span> sess<span class="ansi-blue-fg">.</span>run<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">[</span>cost<span class="ansi-blue-fg">,</span> final_state<span class="ansi-blue-fg">,</span> train_op<span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">,</span> feed<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">     19</span> 
-<span class="ansi-green-intense-fg ansi-bold">     20</span>             <span class="ansi-red-fg"># Show every &lt;show_every_n_batches&gt; batches</span>
-
-<span class="ansi-green-fg">/home/carnd/anaconda3/envs/dl/lib/python3.5/site-packages/tensorflow/python/client/session.py</span> in <span class="ansi-cyan-fg">run</span><span class="ansi-blue-fg">(self, fetches, feed_dict, options, run_metadata)</span>
-<span class="ansi-green-intense-fg ansi-bold">    893</span>     <span class="ansi-green-fg">try</span><span class="ansi-blue-fg">:</span>
-<span class="ansi-green-intense-fg ansi-bold">    894</span>       result = self._run(None, fetches, feed_dict, options_ptr,
-<span class="ansi-green-fg">--&gt; 895</span><span class="ansi-red-fg">                          run_metadata_ptr)
-</span><span class="ansi-green-intense-fg ansi-bold">    896</span>       <span class="ansi-green-fg">if</span> run_metadata<span class="ansi-blue-fg">:</span>
-<span class="ansi-green-intense-fg ansi-bold">    897</span>         proto_data <span class="ansi-blue-fg">=</span> tf_session<span class="ansi-blue-fg">.</span>TF_GetBuffer<span class="ansi-blue-fg">(</span>run_metadata_ptr<span class="ansi-blue-fg">)</span>
-
-<span class="ansi-green-fg">/home/carnd/anaconda3/envs/dl/lib/python3.5/site-packages/tensorflow/python/client/session.py</span> in <span class="ansi-cyan-fg">_run</span><span class="ansi-blue-fg">(self, handle, fetches, feed_dict, options, run_metadata)</span>
-<span class="ansi-green-intense-fg ansi-bold">   1122</span>     <span class="ansi-green-fg">if</span> final_fetches <span class="ansi-green-fg">or</span> final_targets <span class="ansi-green-fg">or</span> <span class="ansi-blue-fg">(</span>handle <span class="ansi-green-fg">and</span> feed_dict_tensor<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
-<span class="ansi-green-intense-fg ansi-bold">   1123</span>       results = self._do_run(handle, final_targets, final_fetches,
-<span class="ansi-green-fg">-&gt; 1124</span><span class="ansi-red-fg">                              feed_dict_tensor, options, run_metadata)
-</span><span class="ansi-green-intense-fg ansi-bold">   1125</span>     <span class="ansi-green-fg">else</span><span class="ansi-blue-fg">:</span>
-<span class="ansi-green-intense-fg ansi-bold">   1126</span>       results <span class="ansi-blue-fg">=</span> <span class="ansi-blue-fg">[</span><span class="ansi-blue-fg">]</span>
-
-<span class="ansi-green-fg">/home/carnd/anaconda3/envs/dl/lib/python3.5/site-packages/tensorflow/python/client/session.py</span> in <span class="ansi-cyan-fg">_do_run</span><span class="ansi-blue-fg">(self, handle, target_list, fetch_list, feed_dict, options, run_metadata)</span>
-<span class="ansi-green-intense-fg ansi-bold">   1319</span>     <span class="ansi-green-fg">if</span> handle <span class="ansi-green-fg">is</span> <span class="ansi-green-fg">None</span><span class="ansi-blue-fg">:</span>
-<span class="ansi-green-intense-fg ansi-bold">   1320</span>       return self._do_call(_run_fn, self._session, feeds, fetches, targets,
-<span class="ansi-green-fg">-&gt; 1321</span><span class="ansi-red-fg">                            options, run_metadata)
-</span><span class="ansi-green-intense-fg ansi-bold">   1322</span>     <span class="ansi-green-fg">else</span><span class="ansi-blue-fg">:</span>
-<span class="ansi-green-intense-fg ansi-bold">   1323</span>       <span class="ansi-green-fg">return</span> self<span class="ansi-blue-fg">.</span>_do_call<span class="ansi-blue-fg">(</span>_prun_fn<span class="ansi-blue-fg">,</span> self<span class="ansi-blue-fg">.</span>_session<span class="ansi-blue-fg">,</span> handle<span class="ansi-blue-fg">,</span> feeds<span class="ansi-blue-fg">,</span> fetches<span class="ansi-blue-fg">)</span>
-
-<span class="ansi-green-fg">/home/carnd/anaconda3/envs/dl/lib/python3.5/site-packages/tensorflow/python/client/session.py</span> in <span class="ansi-cyan-fg">_do_call</span><span class="ansi-blue-fg">(self, fn, *args)</span>
-<span class="ansi-green-intense-fg ansi-bold">   1325</span>   <span class="ansi-green-fg">def</span> _do_call<span class="ansi-blue-fg">(</span>self<span class="ansi-blue-fg">,</span> fn<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">*</span>args<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
-<span class="ansi-green-intense-fg ansi-bold">   1326</span>     <span class="ansi-green-fg">try</span><span class="ansi-blue-fg">:</span>
-<span class="ansi-green-fg">-&gt; 1327</span><span class="ansi-red-fg">       </span><span class="ansi-green-fg">return</span> fn<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">*</span>args<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">   1328</span>     <span class="ansi-green-fg">except</span> errors<span class="ansi-blue-fg">.</span>OpError <span class="ansi-green-fg">as</span> e<span class="ansi-blue-fg">:</span>
-<span class="ansi-green-intense-fg ansi-bold">   1329</span>       message <span class="ansi-blue-fg">=</span> compat<span class="ansi-blue-fg">.</span>as_text<span class="ansi-blue-fg">(</span>e<span class="ansi-blue-fg">.</span>message<span class="ansi-blue-fg">)</span>
-
-<span class="ansi-green-fg">/home/carnd/anaconda3/envs/dl/lib/python3.5/site-packages/tensorflow/python/client/session.py</span> in <span class="ansi-cyan-fg">_run_fn</span><span class="ansi-blue-fg">(session, feed_dict, fetch_list, target_list, options, run_metadata)</span>
-<span class="ansi-green-intense-fg ansi-bold">   1304</span>           return tf_session.TF_Run(session, options,
-<span class="ansi-green-intense-fg ansi-bold">   1305</span>                                    feed_dict<span class="ansi-blue-fg">,</span> fetch_list<span class="ansi-blue-fg">,</span> target_list<span class="ansi-blue-fg">,</span>
-<span class="ansi-green-fg">-&gt; 1306</span><span class="ansi-red-fg">                                    status, run_metadata)
-</span><span class="ansi-green-intense-fg ansi-bold">   1307</span> 
-<span class="ansi-green-intense-fg ansi-bold">   1308</span>     <span class="ansi-green-fg">def</span> _prun_fn<span class="ansi-blue-fg">(</span>session<span class="ansi-blue-fg">,</span> handle<span class="ansi-blue-fg">,</span> feed_dict<span class="ansi-blue-fg">,</span> fetch_list<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">:</span>
-
-<span class="ansi-red-fg">KeyboardInterrupt</span>: </pre>
 </div>
 </div>
 
@@ -12793,7 +12866,7 @@ Epoch   7 Batch    9/13   train_loss = 8.821
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[77]:</div>
+<div class="prompt input_prompt">In&nbsp;[181]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
@@ -12819,7 +12892,7 @@ Epoch   7 Batch    9/13   train_loss = 8.821
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[78]:</div>
+<div class="prompt input_prompt">In&nbsp;[182]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
@@ -12858,7 +12931,7 @@ Epoch   7 Batch    9/13   train_loss = 8.821
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[120]:</div>
+<div class="prompt input_prompt">In&nbsp;[183]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">get_tensors</span><span class="p">(</span><span class="n">loaded_graph</span><span class="p">):</span>
@@ -12914,7 +12987,7 @@ Epoch   7 Batch    9/13   train_loss = 8.821
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[119]:</div>
+<div class="prompt input_prompt">In&nbsp;[186]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">pick_word</span><span class="p">(</span><span class="n">probabilities</span><span class="p">,</span> <span class="n">int_to_vocab</span><span class="p">):</span>
@@ -12925,10 +12998,13 @@ Epoch   7 Batch    9/13   train_loss = 8.821
 <span class="sd">    :return: String of the predicted word</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># TODO: Implement Function</span>
-    <span class="n">ind</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">probabilities</span><span class="p">)</span>
+    <span class="c1"># 随机选据说好点</span>
+<span class="c1">#     top_n = 5;</span>
+<span class="c1">#     idxs = np.argsort(probabilities)[-top_n:]</span>
+<span class="c1">#     idx = np.random.randint(top_n)</span>
+    <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">probabilities</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">int_to_vocab</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span>
-
+    <span class="k">return</span> <span class="n">int_to_vocab</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">DON&#39;T MODIFY ANYTHING IN THIS CELL THAT IS BELOW THIS LINE</span>
@@ -12969,7 +13045,7 @@ Epoch   7 Batch    9/13   train_loss = 8.821
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[115]:</div>
+<div class="prompt input_prompt">In&nbsp;[187]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">gen_length</span> <span class="o">=</span> <span class="mi">200</span>
@@ -13031,7 +13107,23 @@ Epoch   7 Batch    9/13   train_loss = 8.821
 
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>INFO:tensorflow:Restoring parameters from ./save
-moe_szyslak: kings befouled buying team spirit freed freed read: pickle pickle slurps ziff barstools soup soup asks beautiful whoa-ho whoa-ho drunkening hiring teenage_bart: filed julienne super-nice bachelor am suburban linin&#39; ground sobriety organ forbids traditions taylor world trying trying clientele formico mid-seventies defected incarcerated blocked organ twelveball incarcerated weary weary weary yesterday&#39;s weary yesterday&#39;s intense intense phone steal steal one one managed grants restaurants restaurants weekend weekend &#39;s attempting entering dennis finance including chateau will stage chest louder cupid media counter jack_larson: releasing releasing girlfriend grope will sympathizer owes locklear eww ned neat&#39;s-foot b return error phony phony phony honey seconds municipal seamstress seamstress without: demo demo _eugene_blatz: demo many sobs what-for famous famous solid near easier conference _kissingher: grumbling academy i-i&#39;ll nail einstein depository eternity bonfire scary tv gas edner c&#39;mere koi might lindsay mid-seventies libido yoo yoo yoo planned mckinley wisconsin yells lips investigating throat aristotle: unfresh renee&#39;s advice john proposing carl: weekly thousand beer&#39;s names close handshake shove shove west improv duel duel sabermetrics cents considers william don&#39;t don&#39;t amber_dempsey: amber_dempsey: sesame saget saget cheap soul-crushing nothin&#39;s blood trustworthy delicious princesses delicious &#39;pu patty o&#39;problem fixes o&#39;problem load percent percent mother&#39;s kahlua ugh disgusted suing moment mount sweden
+moe_szyslak:(into phone) moe&#39;s tavern. nobody!
+moe_szyslak:(to patrons) figure of speech.
+moe_szyslak:(sighs)
+homer_simpson: what&#39;s the matter, homer?
+homer_simpson:(excited) guys, this science exhibit that told me how to assert herself.
+homer_simpson: well, i guess i could hear, where i know the most clothespins a man could attach to his face is eighty-seven.
+carl_carlson: you counting the neck?
+moe_szyslak:(to bears) all right, andalay! andalay!
+
+
+homer_simpson: sometimes you gotta go where everybody knows your name.
+homer_simpson:(excited) no, o&#39;reilly.
+agnes_skinner: i don&#39;t want that right?
+homer_simpson:(tough) just try it!(sobs) what would i ever heard about it.
+moe_szyslak:(lying) their one, to move on...
+moe_szyslak:(into phone) hello, you...(gossipy) i think they have been fun.
+moe_szyslak:(into phone) listen, you...(gossipy) i think
 </pre>
 </div>
 </div>

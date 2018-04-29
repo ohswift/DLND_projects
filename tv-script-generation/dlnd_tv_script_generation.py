@@ -189,7 +189,7 @@ else:
 # 
 # Return the placeholders in the following tuple `(Input, Targets, LearningRate)`
 
-# In[102]:
+# In[137]:
 
 def get_inputs():
     """
@@ -199,7 +199,7 @@ def get_inputs():
     # TODO: Implement Function
     inputs = tf.placeholder(tf.int32, [None, None], name='input')
     targets = tf.placeholder(tf.int32, [None, None], name='targets')
-    lr = tf.placeholder(tf.int32, name='learing_rate')
+    lr = tf.placeholder(tf.float32, name='learing_rate')
     return inputs, targets, lr
 
 
@@ -217,7 +217,7 @@ tests.test_get_inputs(get_inputs)
 # 
 # Return the cell and initial state in the following tuple `(Cell, InitialState)`
 
-# In[32]:
+# In[142]:
 
 def get_init_cell(batch_size, rnn_size):
     """
@@ -227,8 +227,8 @@ def get_init_cell(batch_size, rnn_size):
     :return: Tuple (cell, initialize state)
     """
     # TODO: Implement Function
-    lstm = tf.contrib.rnn.BasicLSTMCell(rnn_size)
-    cell = tf.contrib.rnn.MultiRNNCell([lstm])
+    lstm_cell = tf.contrib.rnn.BasicLSTMCell(rnn_size)
+    cell = tf.contrib.rnn.MultiRNNCell([lstm_cell])
     initial_state = cell.zero_state(batch_size, tf.float32)
     initial_state = tf.identity(initial_state, name='initial_state')
 
@@ -244,7 +244,7 @@ tests.test_get_init_cell(get_init_cell)
 # ### Word Embedding
 # Apply embedding to `input_data` using TensorFlow.  Return the embedded sequence.
 
-# In[7]:
+# In[143]:
 
 def get_embed(input_data, vocab_size, embed_dim):
     """
@@ -274,7 +274,7 @@ tests.test_get_embed(get_embed)
 # 
 # Return the outputs and final_state state in the following tuple `(Outputs, FinalState)` 
 
-# In[12]:
+# In[144]:
 
 def build_rnn(cell, inputs):
     """
@@ -305,7 +305,7 @@ tests.test_build_rnn(build_rnn)
 # 
 # Return the logits and final state in the following tuple (Logits, FinalState) 
 
-# In[14]:
+# In[146]:
 
 def build_nn(cell, rnn_size, input_data, vocab_size, embed_dim):
     """
@@ -370,7 +370,7 @@ tests.test_build_nn(build_nn)
 # 
 # Notice that the last target value in the last batch is the first input value of the first batch. In this case, `1`. This is a common technique used when creating sequence batches, although it is rather unintuitive.
 
-# In[52]:
+# In[147]:
 
 def get_batches(int_text, batch_size, seq_length):
     """
@@ -418,12 +418,12 @@ tests.test_get_batches(get_batches)
 # - Set `learning_rate` to the learning rate.
 # - Set `show_every_n_batches` to the number of batches the neural network should print progress.
 
-# In[121]:
+# In[178]:
 
 # Number of Epochs
-num_epochs = 500
+num_epochs = 550
 # Batch Size
-batch_size = 50
+batch_size = 30
 # RNN Size
 rnn_size = 128
 # Embedding Dimension Size
@@ -444,7 +444,7 @@ save_dir = './save'
 # ### Build the Graph
 # Build the graph using the neural network you implemented.
 
-# In[122]:
+# In[179]:
 
 """
 DON'T MODIFY ANYTHING IN THIS CELL
@@ -480,7 +480,7 @@ with train_graph.as_default():
 # ## Train
 # Train the neural network on the preprocessed data.  If you have a hard time getting a good loss, check the [forums](https://discussions.udacity.com/) to see if anyone is having the same problem.
 
-# In[123]:
+# In[180]:
 
 """
 DON'T MODIFY ANYTHING IN THIS CELL
@@ -518,7 +518,7 @@ with tf.Session(graph=train_graph) as sess:
 # ## Save Parameters
 # Save `seq_length` and `save_dir` for generating a new TV script.
 
-# In[77]:
+# In[181]:
 
 """
 DON'T MODIFY ANYTHING IN THIS CELL
@@ -529,7 +529,7 @@ helper.save_params((seq_length, save_dir))
 
 # # Checkpoint
 
-# In[78]:
+# In[182]:
 
 """
 DON'T MODIFY ANYTHING IN THIS CELL
@@ -553,7 +553,7 @@ seq_length, load_dir = helper.load_params()
 # 
 # Return the tensors in the following tuple `(InputTensor, InitialStateTensor, FinalStateTensor, ProbsTensor)` 
 
-# In[120]:
+# In[183]:
 
 def get_tensors(loaded_graph):
     """
@@ -578,7 +578,7 @@ tests.test_get_tensors(get_tensors)
 # ### Choose Word
 # Implement the `pick_word()` function to select the next word using `probabilities`.
 
-# In[119]:
+# In[186]:
 
 def pick_word(probabilities, int_to_vocab):
     """
@@ -588,10 +588,13 @@ def pick_word(probabilities, int_to_vocab):
     :return: String of the predicted word
     """
     # TODO: Implement Function
-    ind = np.argmax(probabilities)
+    # 随机选据说好点
+#     top_n = 5;
+#     idxs = np.argsort(probabilities)[-top_n:]
+#     idx = np.random.randint(top_n)
+    idx = np.argmax(probabilities)
 
-    return int_to_vocab[ind]
-
+    return int_to_vocab[idx]
 
 """
 DON'T MODIFY ANYTHING IN THIS CELL THAT IS BELOW THIS LINE
@@ -602,7 +605,7 @@ tests.test_pick_word(pick_word)
 # ## Generate TV Script
 # This will generate the TV script for you.  Set `gen_length` to the length of TV script you want to generate.
 
-# In[115]:
+# In[187]:
 
 gen_length = 200
 # homer_simpson, moe_szyslak, or Barney_Gumble

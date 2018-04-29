@@ -138,7 +138,7 @@ helper.preprocess_and_save_data(data_dir, token_lookup, create_lookup_tables)
 # # Check Point
 # This is your first checkpoint. If you ever decide to come back to this notebook or have to restart the notebook, you can start from here. The preprocessed data has been saved to disk.
 
-# In[98]:
+# In[1]:
 
 """
 DON'T MODIFY ANYTHING IN THIS CELL
@@ -161,7 +161,7 @@ int_text, vocab_to_int, int_to_vocab, token_dict = helper.load_preprocess()
 # 
 # ### Check the Version of TensorFlow and Access to GPU
 
-# In[21]:
+# In[2]:
 
 """
 DON'T MODIFY ANYTHING IN THIS CELL
@@ -189,7 +189,7 @@ else:
 # 
 # Return the placeholders in the following tuple `(Input, Targets, LearningRate)`
 
-# In[137]:
+# In[3]:
 
 def get_inputs():
     """
@@ -217,23 +217,20 @@ tests.test_get_inputs(get_inputs)
 # 
 # Return the cell and initial state in the following tuple `(Cell, InitialState)`
 
-# In[142]:
+# In[8]:
 
-def get_init_cell(batch_size, rnn_size):
-    """
-    Create an RNN Cell and initialize it.
-    :param batch_size: Size of batches
-    :param rnn_size: Size of RNNs
-    :return: Tuple (cell, initialize state)
-    """
-    # TODO: Implement Function
-    lstm_cell = tf.contrib.rnn.BasicLSTMCell(rnn_size)
-    cell = tf.contrib.rnn.MultiRNNCell([lstm_cell])
+def get_init_cell(batch_size, rnn_size, n_layers=2):
+    # basic LSTM cell, tf 1.0后语法
+    def make_lstm(rnn_size):
+        return tf.contrib.rnn.BasicLSTMCell(rnn_size)
+    
+    # Stack up multiple LSTM layers, for deep learning,
+    cell = tf.contrib.rnn.MultiRNNCell([ make_lstm(rnn_size) for _ in range(n_layers)])
+    # Getting an initial state of all zeros
     initial_state = cell.zero_state(batch_size, tf.float32)
     initial_state = tf.identity(initial_state, name='initial_state')
-
-    return cell, initial_state
-
+    
+    return (cell, initial_state)
 
 """
 DON'T MODIFY ANYTHING IN THIS CELL THAT IS BELOW THIS LINE
@@ -244,7 +241,7 @@ tests.test_get_init_cell(get_init_cell)
 # ### Word Embedding
 # Apply embedding to `input_data` using TensorFlow.  Return the embedded sequence.
 
-# In[143]:
+# In[5]:
 
 def get_embed(input_data, vocab_size, embed_dim):
     """
@@ -274,7 +271,7 @@ tests.test_get_embed(get_embed)
 # 
 # Return the outputs and final_state state in the following tuple `(Outputs, FinalState)` 
 
-# In[144]:
+# In[10]:
 
 def build_rnn(cell, inputs):
     """
@@ -305,7 +302,7 @@ tests.test_build_rnn(build_rnn)
 # 
 # Return the logits and final state in the following tuple (Logits, FinalState) 
 
-# In[146]:
+# In[11]:
 
 def build_nn(cell, rnn_size, input_data, vocab_size, embed_dim):
     """
@@ -370,8 +367,9 @@ tests.test_build_nn(build_nn)
 # 
 # Notice that the last target value in the last batch is the first input value of the first batch. In this case, `1`. This is a common technique used when creating sequence batches, although it is rather unintuitive.
 
-# In[147]:
+# In[12]:
 
+# XXX: 这里我觉得没有问题的，而且能通过用例，训练结果也正常。用上次review的给的建议方案通不过用例，提示最后一列没有填0
 def get_batches(int_text, batch_size, seq_length):
     """
     Return batches of input and target
@@ -418,22 +416,22 @@ tests.test_get_batches(get_batches)
 # - Set `learning_rate` to the learning rate.
 # - Set `show_every_n_batches` to the number of batches the neural network should print progress.
 
-# In[178]:
+# In[19]:
 
 # Number of Epochs
-num_epochs = 550
+num_epochs = 300
 # Batch Size
-batch_size = 30
+batch_size = 256
 # RNN Size
-rnn_size = 128
+rnn_size = 512
 # Embedding Dimension Size
 embed_dim = 200
 # Sequence Length
-seq_length = 100
+seq_length = 16
 # Learning Rate
 learning_rate = 0.001
 # Show stats for every n number of batches
-show_every_n_batches = 100
+show_every_n_batches = 160
 
 """
 DON'T MODIFY ANYTHING IN THIS CELL THAT IS BELOW THIS LINE
@@ -444,7 +442,7 @@ save_dir = './save'
 # ### Build the Graph
 # Build the graph using the neural network you implemented.
 
-# In[179]:
+# In[20]:
 
 """
 DON'T MODIFY ANYTHING IN THIS CELL
@@ -480,7 +478,7 @@ with train_graph.as_default():
 # ## Train
 # Train the neural network on the preprocessed data.  If you have a hard time getting a good loss, check the [forums](https://discussions.udacity.com/) to see if anyone is having the same problem.
 
-# In[180]:
+# In[21]:
 
 """
 DON'T MODIFY ANYTHING IN THIS CELL
@@ -518,7 +516,7 @@ with tf.Session(graph=train_graph) as sess:
 # ## Save Parameters
 # Save `seq_length` and `save_dir` for generating a new TV script.
 
-# In[181]:
+# In[22]:
 
 """
 DON'T MODIFY ANYTHING IN THIS CELL
@@ -529,7 +527,7 @@ helper.save_params((seq_length, save_dir))
 
 # # Checkpoint
 
-# In[182]:
+# In[23]:
 
 """
 DON'T MODIFY ANYTHING IN THIS CELL
@@ -553,7 +551,7 @@ seq_length, load_dir = helper.load_params()
 # 
 # Return the tensors in the following tuple `(InputTensor, InitialStateTensor, FinalStateTensor, ProbsTensor)` 
 
-# In[183]:
+# In[24]:
 
 def get_tensors(loaded_graph):
     """
@@ -578,7 +576,7 @@ tests.test_get_tensors(get_tensors)
 # ### Choose Word
 # Implement the `pick_word()` function to select the next word using `probabilities`.
 
-# In[186]:
+# In[25]:
 
 def pick_word(probabilities, int_to_vocab):
     """
@@ -605,7 +603,7 @@ tests.test_pick_word(pick_word)
 # ## Generate TV Script
 # This will generate the TV script for you.  Set `gen_length` to the length of TV script you want to generate.
 
-# In[187]:
+# In[26]:
 
 gen_length = 200
 # homer_simpson, moe_szyslak, or Barney_Gumble
